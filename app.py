@@ -12,7 +12,7 @@ import streamlit as st
 import plotly.graph_objects as go
 import numpy as np
 
-
+st.write("трекер')
 frequency = st.sidebar.number_input(f'Как  редко перекладывать активы', value=1)
 
 option = st.sidebar.selectbox(
