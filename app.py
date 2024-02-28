@@ -12,7 +12,7 @@ import streamlit as st
 import plotly.graph_objects as go
 import numpy as np
 
-st.write("трекер')
+
 frequency = st.sidebar.number_input(f'Как  редко перекладывать активы', value=1)
 
 option = st.sidebar.selectbox(
@@ -1437,20 +1437,20 @@ def exp(option, dfs,date, currency):
     return st.plotly_chart(fig)
 # dfs,date, data_rub_USD, data_btc_usd, gold_data, gold_usd_gram  = download(start_date, end_date, frequency)
 
-# dfs, date, data_rub_USD, data_btc_usd, gold_data, gold_usd_gram = download(start_date, end_date, frequency, 'data.pkl', update=False)
+dfs, date, data_rub_USD, data_btc_usd, gold_data, gold_usd_gram = download(start_date, end_date, frequency, 'data.pkl', update=False)
 
-# # st.write('data_rub_USD',  data_rub_USD, len(data_rub_USD))
-# # st.write('data_btc_usd', data_btc_usd, len(data_btc_usd))
-# # st.write('gold_usd_gram', gold_usd_gram, len(gold_usd_gram))
+# st.write('data_rub_USD',  data_rub_USD, len(data_rub_USD))
+# st.write('data_btc_usd', data_btc_usd, len(data_btc_usd))
+# st.write('gold_usd_gram', gold_usd_gram, len(gold_usd_gram))
         
 
 
 
 
 
-# for i in range(len(date)):
-#     date[i] = date[i].strftime('%Y-%m-%d %H:%M:%S')
-# # st.write(date)
+for i in range(len(date)):
+    date[i] = date[i].strftime('%Y-%m-%d %H:%M:%S')
+# st.write(date)
 
 
 
@@ -1460,103 +1460,103 @@ def exp(option, dfs,date, currency):
 
 
 
-# exp(option, dfs,date, option)
+exp(option, dfs,date, option)
 
-# ##############################################################################################################################
-# volatilit = pd.DataFrame(columns=['KRUR', 'KUSD', 'BTC', 'Gold'])#.set_index('Date')
-
-
-
-
-# def volatility(volatilit, start, end):
-#     # Преобразуйте строки в объекты даты
-#     start = datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S')
-#     end = datetime.datetime.strptime(end, '%Y-%m-%d %H:%M:%S')    
-#     ind = '{}:{}'.format(start.strftime('%Y-%m-%d'), end.strftime('%Y-%m-%d'))
-#     volatilit.loc[ind, 'KRUR'] = np.std(1/data_rub_USD[start:end])
-#     volatilit.loc[ind, 'BTC'] = np.std(data_btc_usd[start:end])
-#     volatilit.loc[ind, 'Gold'] = np.std(gold_usd_gram[start:end])
-#     volatilit.loc[ind, 'KUSD'] = 1/volatilit.loc[ind, 'KRUR']
-#     return volatilit
+##############################################################################################################################
+volatilit = pd.DataFrame(columns=['KRUR', 'KUSD', 'BTC', 'Gold'])#.set_index('Date')
 
 
 
 
-# def volatility_sred(volatilit, start, end):
+def volatility(volatilit, start, end):
+    # Преобразуйте строки в объекты даты
+    start = datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S')
+    end = datetime.datetime.strptime(end, '%Y-%m-%d %H:%M:%S')    
+    ind = '{}:{}'.format(start.strftime('%Y-%m-%d'), end.strftime('%Y-%m-%d'))
+    volatilit.loc[ind, 'KRUR'] = np.std(1/data_rub_USD[start:end])
+    volatilit.loc[ind, 'BTC'] = np.std(data_btc_usd[start:end])
+    volatilit.loc[ind, 'Gold'] = np.std(gold_usd_gram[start:end])
+    volatilit.loc[ind, 'KUSD'] = 1/volatilit.loc[ind, 'KRUR']
+    return volatilit
+
+
+
+
+def volatility_sred(volatilit, start, end):
  
-#     ind = '{}:{}'.format(pd.to_datetime(start).strftime('%Y-%m-%d'), pd.to_datetime(end).strftime('%Y-%m-%d'))  # Изменяем формат для индекса
+    ind = '{}:{}'.format(pd.to_datetime(start).strftime('%Y-%m-%d'), pd.to_datetime(end).strftime('%Y-%m-%d'))  # Изменяем формат для индекса
 
-#     volatilit.loc[ind, 'KRUR'] = np.std(1/(data_rub_USD[start:end]/ np.mean(data_rub_USD[start:end])))*100
-#     volatilit.loc[ind, 'BTC'] = np.std(data_btc_usd[start:end]/np.mean(data_btc_usd[start:end]))*100
-#     volatilit.loc[ind, 'Gold'] = np.std(gold_usd_gram[start:end]/np.mean(gold_usd_gram[start:end]))*100
-#     volatilit.loc[ind, 'KUSD'] = np.std(data_rub_USD[start:end]/ np.mean(data_rub_USD[start:end])) * 100
+    volatilit.loc[ind, 'KRUR'] = np.std(1/(data_rub_USD[start:end]/ np.mean(data_rub_USD[start:end])))*100
+    volatilit.loc[ind, 'BTC'] = np.std(data_btc_usd[start:end]/np.mean(data_btc_usd[start:end]))*100
+    volatilit.loc[ind, 'Gold'] = np.std(gold_usd_gram[start:end]/np.mean(gold_usd_gram[start:end]))*100
+    volatilit.loc[ind, 'KUSD'] = np.std(data_rub_USD[start:end]/ np.mean(data_rub_USD[start:end])) * 100
 
-#     return volatilit
+    return volatilit
 
-# def vol_proc(volatilit, start, end):
+def vol_proc(volatilit, start, end):
      
-#     ind = '{}:{}'.format(pd.to_datetime(start).strftime('%Y-%m-%d'), pd.to_datetime(end).strftime('%Y-%m-%d'))  # Изменяем формат для индекса
-#     volatilit.loc[ind, 'KRUR'] = np.std(1/(data_rub_USD[start:end]/data_rub_USD[start]))*100
-#     volatilit.loc[ind, 'BTC'] = np.std(data_btc_usd[start:end]/data_btc_usd[start])*100
-#     volatilit.loc[ind, 'Gold'] = np.std(gold_usd_gram[start:end]/data_rub_USD[start])*100
-#     volatilit.loc[ind, 'KUSD'] = 0#np.std((data_rub_USD[start:end]/data_rub_USD[start]))*100
+    ind = '{}:{}'.format(pd.to_datetime(start).strftime('%Y-%m-%d'), pd.to_datetime(end).strftime('%Y-%m-%d'))  # Изменяем формат для индекса
+    volatilit.loc[ind, 'KRUR'] = np.std(1/(data_rub_USD[start:end]/data_rub_USD[start]))*100
+    volatilit.loc[ind, 'BTC'] = np.std(data_btc_usd[start:end]/data_btc_usd[start])*100
+    volatilit.loc[ind, 'Gold'] = np.std(gold_usd_gram[start:end]/data_rub_USD[start])*100
+    volatilit.loc[ind, 'KUSD'] = 0#np.std((data_rub_USD[start:end]/data_rub_USD[start]))*100
 
-#     return volatilit
+    return volatilit
 
-# def prof(x_start_str, x_end_str,  dfs, option):
-#     x_start = datetime.datetime.strptime(x_start_str, '%Y-%m-%d %H:%M:%S')
-#     x_end = datetime.datetime.strptime(x_end_str, '%Y-%m-%d %H:%M:%S')
-#     profitability_abs= 0
-#     global date_port
-#     profic =  pd.DataFrame(columns=['KRUR', 'KUSD', 'BTC', 'GOLD'])
-#     beginning = dfs[0].index.name
-#     start = x_start-beginning
-#     start = start.days
-#     end =  start + (x_end - x_start).days + 1
-#     a = 0
-#     for j in range(start+1, end):
-#         change = dfs[j]/dfs[j-1] - 1 
-#         for i in date_port.columns:
-#             profitability_abs += (date_port.loc[(x_start + datetime.timedelta(days=a)).strftime('%Y-%m-%d %H:%M:%S'), i]*dfs[j-1].loc[option,i] * change.loc[option, i])
-#         # st.write(profitability_abs,x_start + datetime.timedelta(days=a))
+def prof(x_start_str, x_end_str,  dfs, option):
+    x_start = datetime.datetime.strptime(x_start_str, '%Y-%m-%d %H:%M:%S')
+    x_end = datetime.datetime.strptime(x_end_str, '%Y-%m-%d %H:%M:%S')
+    profitability_abs= 0
+    global date_port
+    profic =  pd.DataFrame(columns=['KRUR', 'KUSD', 'BTC', 'GOLD'])
+    beginning = dfs[0].index.name
+    start = x_start-beginning
+    start = start.days
+    end =  start + (x_end - x_start).days + 1
+    a = 0
+    for j in range(start+1, end):
+        change = dfs[j]/dfs[j-1] - 1 
+        for i in date_port.columns:
+            profitability_abs += (date_port.loc[(x_start + datetime.timedelta(days=a)).strftime('%Y-%m-%d %H:%M:%S'), i]*dfs[j-1].loc[option,i] * change.loc[option, i])
+        # st.write(profitability_abs,x_start + datetime.timedelta(days=a))
 
-#         a += 1
-#     st.write(profitability_abs)
+        a += 1
+    st.write(profitability_abs)
 
 
-# def risk(x_start_str, x_end_str, dfs, option, corr,std ):
-#     global date_port
+def risk(x_start_str, x_end_str, dfs, option, corr,std ):
+    global date_port
 
-#     x_start = datetime.datetime.strptime(x_start_str, '%Y-%m-%d %H:%M:%S')
-#     x_end = datetime.datetime.strptime(x_end_str, '%Y-%m-%d %H:%M:%S')
-#     beginning = dfs[0].index.name
-#     start = x_start-beginning
-#     start = start.days
-#     end =   (x_end - beginning).days
-#     sum = 0
-#     for i in ['KRUR', 'KUSD', 'BTC', 'GOLD']:
-#          sum += date_port.loc[x_end_str, i]*dfs[end].loc[option, i]
-#     el_1= 0
-#     el_2 = 0
-#     w_active = {'KRUR':0, 'KUSD':0, 'BTC':0, 'GOLD':0}
-#     active = 0
-#     for i in ['KRUR', 'KUSD', 'BTC', 'GOLD']:
-#         w_active[i] =  date_port.loc[x_end_str, i]*dfs[end].loc[option, i]/sum
-#         el_1 += w_active[i]**2 * (std.iloc[0, active] )**2
-#         active +=1
-#     active1 = 0
-#     active2= 0
+    x_start = datetime.datetime.strptime(x_start_str, '%Y-%m-%d %H:%M:%S')
+    x_end = datetime.datetime.strptime(x_end_str, '%Y-%m-%d %H:%M:%S')
+    beginning = dfs[0].index.name
+    start = x_start-beginning
+    start = start.days
+    end =   (x_end - beginning).days
+    sum = 0
+    for i in ['KRUR', 'KUSD', 'BTC', 'GOLD']:
+         sum += date_port.loc[x_end_str, i]*dfs[end].loc[option, i]
+    el_1= 0
+    el_2 = 0
+    w_active = {'KRUR':0, 'KUSD':0, 'BTC':0, 'GOLD':0}
+    active = 0
+    for i in ['KRUR', 'KUSD', 'BTC', 'GOLD']:
+        w_active[i] =  date_port.loc[x_end_str, i]*dfs[end].loc[option, i]/sum
+        el_1 += w_active[i]**2 * (std.iloc[0, active] )**2
+        active +=1
+    active1 = 0
+    active2= 0
 
-#     for i in ['KRUR', 'KUSD', 'BTC', 'GOLD']:
-#         active2 = 0
+    for i in ['KRUR', 'KUSD', 'BTC', 'GOLD']:
+        active2 = 0
 
-#         for j in ['KRUR', 'KUSD', 'BTC', 'GOLD']:
-#              el_2 += w_active[i]*w_active[j]*corr.iloc[active1,active2]*(std.iloc[0, active1]*std.iloc[0, active2])
-#              active2 +=1
-#         active1 +=1
+        for j in ['KRUR', 'KUSD', 'BTC', 'GOLD']:
+             el_2 += w_active[i]*w_active[j]*corr.iloc[active1,active2]*(std.iloc[0, active1]*std.iloc[0, active2])
+             active2 +=1
+        active1 +=1
 
-#     total = (el_1+2*el_2)**0.5
-#     st.write('Риск',total)
+    total = (el_1+2*el_2)**0.5
+    st.write('Риск',total)
 
 # # Количество дней, которое мы хотим добавить
 # days_to_add = 7
@@ -1573,54 +1573,54 @@ def exp(option, dfs,date, currency):
 
 
 
-# index = ['RUB','USD', 'BTC', 'Gold']
-# columns = ['RUB', 'USD', 'BTC', 'Gold']
-# corr = pd.DataFrame(index=index, columns=columns)
-# def func_corr(corr, start, end, lst):
-#     lst = dict(zip( ['RUB', 'USD', 'BTC', 'Gold'], lst))
-#     for i in list(corr.columns):
-#          for j in list(corr.columns):
-#             corr.loc[i, j] = lst[i].corr(lst[j])                 
-#     # st.write(corr)
-#     return corr
+index = ['RUB','USD', 'BTC', 'Gold']
+columns = ['RUB', 'USD', 'BTC', 'Gold']
+corr = pd.DataFrame(index=index, columns=columns)
+def func_corr(corr, start, end, lst):
+    lst = dict(zip( ['RUB', 'USD', 'BTC', 'Gold'], lst))
+    for i in list(corr.columns):
+         for j in list(corr.columns):
+            corr.loc[i, j] = lst[i].corr(lst[j])                 
+    # st.write(corr)
+    return corr
 
 
-# dat = date.copy()
-# # dat = [datetime.strptime(d, '%Y-%m-%d %H:%M:%S') for d in dat]
-# dat = [datetime.datetime.strptime(d, '%Y-%m-%d %H:%M:%S') for d in dat]
+dat = date.copy()
+# dat = [datetime.strptime(d, '%Y-%m-%d %H:%M:%S') for d in dat]
+dat = [datetime.datetime.strptime(d, '%Y-%m-%d %H:%M:%S') for d in dat]
 
 # Получаем значения начала и конца диапазона при наведении курсора на график
-# x_start, x_end = st.slider("Выберите временной диапазон", 
-#                             min_value=dat[0], 
-#                            max_value=dat[-1], 
-#                            value=(dat[0], dat[-1]))
+x_start, x_end = st.slider("Выберите временной диапазон", 
+                            min_value=dat[0], 
+                           max_value=dat[-1], 
+                           value=(dat[0], dat[-1]))
 
-# # Конвертируем обратно в строки
-# x_start_str = x_start.strftime('%Y-%m-%d %H:%M:%S')
-# x_end_str = x_end.strftime('%Y-%m-%d %H:%M:%S')
+# Конвертируем обратно в строки
+x_start_str = x_start.strftime('%Y-%m-%d %H:%M:%S')
+x_end_str = x_end.strftime('%Y-%m-%d %H:%M:%S')
 
-# st.write(f"Волатильность в абсолютных знач")
-# # st.write(data_rub_USD[x_start_str:x_end_str])
-# st.write(volatility(volatilit, x_start_str, x_end_str))
-# st.write(f"Волатильность в процентом знач")
+st.write(f"Волатильность в абсолютных знач")
+# st.write(data_rub_USD[x_start_str:x_end_str])
+st.write(volatility(volatilit, x_start_str, x_end_str))
+st.write(f"Волатильность в процентом знач")
 
 # st.write(volatility_sred(volatilit, x_start_str, x_end_str))
 
-# std = vol_proc(volatilit, x_start_str, x_end_str)
-# st.write(std)
+std = vol_proc(volatilit, x_start_str, x_end_str)
+st.write(std)
 
-# st.write(f"корреляция активов в процентных изменениях")
+st.write(f"корреляция активов в процентных изменениях")
 
-# corr = func_corr(corr,x_start_str, x_end_str, [1/data_rub_USD[x_start_str:x_end_str]/data_rub_USD[x_start_str],data_rub_USD[x_start_str:x_end_str]/data_rub_USD[x_start_str], data_btc_usd[x_start_str:x_end_str]/data_btc_usd[x_start_str], gold_usd_gram[x_start_str:x_end_str]/gold_usd_gram[x_start_str]])
-# st.write(corr)
-# st.write(f"доходность")
+corr = func_corr(corr,x_start_str, x_end_str, [1/data_rub_USD[x_start_str:x_end_str]/data_rub_USD[x_start_str],data_rub_USD[x_start_str:x_end_str]/data_rub_USD[x_start_str], data_btc_usd[x_start_str:x_end_str]/data_btc_usd[x_start_str], gold_usd_gram[x_start_str:x_end_str]/gold_usd_gram[x_start_str]])
+st.write(corr)
+st.write(f"доходность")
 
 # Предположим, что dfs[0].index.name и dfs[5].index.name - это объекты Timestamp
 
-# prof(x_start_str, x_end_str, dfs, option)
+prof(x_start_str, x_end_str, dfs, option)
 # st.write(dfs[5].index.name, (dfs[0].index.name, dfs[5].index.name - dfs[0].index.name).days)
 
-# risk(x_start_str, x_end_str, dfs, option, corr,std )
+risk(x_start_str, x_end_str, dfs, option, corr,std )
 
 
 
