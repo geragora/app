@@ -208,3 +208,4 @@ yarg==0.1.9
 yfinance==0.2.31
 zipp==3.17.0
 zope.interface==6.1
+pywin32==305
